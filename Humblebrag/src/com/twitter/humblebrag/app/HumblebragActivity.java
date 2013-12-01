@@ -22,12 +22,12 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class HumblebragActivity extends BaseActivity implements OnScrollListener{
-	private int page;
 	private ListView list;
 	private ReTweetListAdapter adapter;
 	private int width;
@@ -39,7 +39,6 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
 		setContentView(R.layout.activity_humblebrag);
 		context = this;
 		Intent intent = getIntent();
-		page = 0;
 		DisplayMetrics dm = new DisplayMetrics();
 		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
 		width = dm.widthPixels;
@@ -112,6 +111,8 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
 			}
 			list.setAdapter(adapter);
 			list.setOnScrollListener(this);
+		}else{
+    		Toast.makeText(context, "Request could not be completed due to server Error", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -120,9 +121,8 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
 			int visibleItemCount, int totalItemCount) {
 		Log.i("HB", firstVisibleItem + " " + visibleItemCount + " " + totalItemCount);
 		if (firstVisibleItem + visibleItemCount > totalItemCount -1 && getTask == null) {
-			page++;
 			getTask = new getHumblebragTask();
-			getTask.execute(page);
+			getTask.execute();
 		}		
 	}
 

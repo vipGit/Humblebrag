@@ -15,14 +15,14 @@ import android.util.Log;
 
 public class BaseActivity extends Activity {
 	private ProgressDialog progressDialog;
-	protected AsyncTask<Integer, Void, ArrayList<ReTweet>> getTask;
+	protected AsyncTask<Void, Void, ArrayList<ReTweet>> getTask;
 	protected Context context;
 	
 	protected void setResponse(ArrayList<ReTweet> reTweets, boolean isError){
 		
 	}
 
-	 protected class getHumblebragTask extends AsyncTask<Integer, Void, ArrayList<ReTweet>>{
+	 protected class getHumblebragTask extends AsyncTask<Void, Void, ArrayList<ReTweet>>{
 		 
 			@Override
 			protected void onPreExecute() {
@@ -32,12 +32,14 @@ public class BaseActivity extends Activity {
 			}
 
 			@Override
-			protected ArrayList<ReTweet> doInBackground(Integer... params) {
+			protected ArrayList<ReTweet> doInBackground(Void... params) {
 				try {
 					Log.i("HB", "Executing task");
-					ArrayList<ReTweet> reTweets = BaseLogic.getHumblebragResponse(context, params[0].intValue());
+					ArrayList<ReTweet> reTweets = BaseLogic.getHumblebragResponse(context);
 					return reTweets;
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				return null;

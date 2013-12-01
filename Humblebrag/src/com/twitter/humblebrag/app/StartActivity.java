@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 public class StartActivity extends BaseActivity {
 
@@ -28,7 +29,7 @@ public class StartActivity extends BaseActivity {
 			public void onClick(View v) {
 				findViewById(R.id.button1).setClickable(false);
 				getTask = new getHumblebragTask();
-				getTask.execute(0);
+				getTask.execute();
 			}
 		});
     }
@@ -45,6 +46,8 @@ public class StartActivity extends BaseActivity {
 			intent.putExtra("data", data);
 			findViewById(R.id.button1).setClickable(true);
 			startActivity(intent);
+    	}else{
+    		Toast.makeText(context, "Request could not be completed due to server Error", Toast.LENGTH_LONG).show();
     	}
 	}
 

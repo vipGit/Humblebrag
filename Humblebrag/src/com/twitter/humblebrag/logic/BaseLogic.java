@@ -29,8 +29,10 @@ import android.content.Context;
 import android.util.Log;
 
 public class BaseLogic {
+	private static long max_id = 0;
+	private static boolean isFirstPage = true;
 	
-	public static ArrayList<ReTweet> getHumblebragResponse(Context context, int page) throws ClientProtocolException, IOException{
+	public static ArrayList<ReTweet> getHumblebragResponse(Context context) throws ClientProtocolException, IOException{
 		String encodedKeys = encodeKeys(ApplicationConstants.getInstance(context.getResources()).CONSUMER_KEY, ApplicationConstants.getInstance(context.getResources()).CONSUMER_SECRET);
 		Log.i("HB", "encoded keys obtained " + encodedKeys);
 		String bearerToken = requestBearerToken(ApplicationConstants.getInstance(context.getResources()).URL_TOKEN, encodedKeys);
@@ -38,7 +40,13 @@ public class BaseLogic {
 		if(bearerToken == null) {
 			return null;
 		}
-		ArrayList<ReTweet> reTweets = fetchTimelineData(String.format(ApplicationConstants.getInstance(context.getResources()).URL_HUMBLEBRAG, page), bearerToken);
+		ArrayList<ReTweet> reTweets = null;
+		if(isFirstPage){	
+			reTweets = fetchTimelineData(ApplicationConstants.getInstance(context.getResources()).URL_HUMBLEBRAG, bearerToken);
+			isFirstPage = false;
+		}else{
+			reTweets = fetchTimelineData(String.format((ApplicationConstants.getInstance(context.getResources()).URL_HUMBLEBRAG_PAGING), max_id), bearerToken);
+		}
 		return reTweets;
 	}
 	
@@ -108,7 +116,11 @@ public class BaseLogic {
 					ReTweet reTweet = ReTweetParser.parseResponse(iterator.next());
 					reTweets.add(reTweet);
 					Log.i("HB", reTweet.getTweet());
+					Log.i("HB", reTweet.getId());
+					max_id = Long.valueOf(reTweet.getId()) -1;
 				}
+			
+				Log.i("HB", "max_id is " + max_id);
 				return reTweets;
 			}
 			return null;		

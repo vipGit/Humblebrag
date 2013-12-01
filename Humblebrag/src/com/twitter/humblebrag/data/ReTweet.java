@@ -8,6 +8,7 @@ public class ReTweet implements Serializable{
 	private String screen_name;
 	private String tweet;
 	private String imageUrl;
+	private String id;
 	
 	public String getTweet() {
 		return tweet;
@@ -27,12 +28,19 @@ public class ReTweet implements Serializable{
 	public void setScreen_name(String screen_name) {
 		this.screen_name = screen_name;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		StringBuilder reTweet = new StringBuilder();
 		reTweet.append("Screen_name = ").append(screen_name);
 		reTweet.append(": Tweet =").append(tweet);
 		reTweet.append(": imageUrl = ").append(imageUrl);
+		reTweet.append(": id = ").append(id);
 
 		return reTweet.toString();
 	}

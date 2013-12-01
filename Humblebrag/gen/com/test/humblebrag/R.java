@@ -57,6 +57,9 @@ public final class R {
         /**  User Time Line URL: Humblebrag 
          */
         public static final int url_humblebrag_timeline=0x7f040009;
+        /**  User Time Line URL: Humblebrag with maxId
+         */
+        public static final int url_humblebrag_timeline_paging=0x7f04000a;
     }
     public static final class style {
         /** 

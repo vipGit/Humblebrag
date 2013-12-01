@@ -14,7 +14,7 @@ public class ApplicationConstants {
 	public final String CONSUMER_SECRET;
 	public final String URL_TOKEN;
 	public final String URL_HUMBLEBRAG;
-	
+	public final String URL_HUMBLEBRAG_PAGING;
 	
 	public ApplicationConstants(Resources resources) {
 		LOADING_MESSAGE = String.format(resources.getString(R.string.loading_message));
@@ -22,7 +22,8 @@ public class ApplicationConstants {
 		CONSUMER_KEY = String.format(resources.getString(R.string.consumer_key));
 		CONSUMER_SECRET = String.format(resources.getString(R.string.consumer_secret));
 		URL_TOKEN = String.format(resources.getString(R.string.url_bearer_token));
-		URL_HUMBLEBRAG = resources.getString(R.string.url_humblebrag_timeline);
+		URL_HUMBLEBRAG = String.format(resources.getString(R.string.url_humblebrag_timeline));
+		URL_HUMBLEBRAG_PAGING = resources.getString(R.string.url_humblebrag_timeline_paging);
 	}
 
 	public static ApplicationConstants getInstance(Resources resources) {
