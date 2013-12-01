@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.test.humblebrag.R;
 import com.twitter.humblebrag.data.ReTweet;
+import com.twitter.humblegrag.common.ApplicationConstants;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class StartActivity extends BaseActivity {
 			findViewById(R.id.button1).setClickable(true);
 			startActivity(intent);
     	}else{
-    		Toast.makeText(context, "Request could not be completed due to server Error", Toast.LENGTH_LONG).show();
+    		Toast.makeText(context, ApplicationConstants.getInstance(context.getResources()).LOADING_ERROR, Toast.LENGTH_LONG).show();
     	}
 	}
 

@@ -15,10 +15,12 @@ public class ApplicationConstants {
 	public final String URL_TOKEN;
 	public final String URL_HUMBLEBRAG;
 	public final String URL_HUMBLEBRAG_PAGING;
+	public final String LOADING_ERROR;
 	
 	public ApplicationConstants(Resources resources) {
 		LOADING_MESSAGE = String.format(resources.getString(R.string.loading_message));
 		LOADING_TITLE = String.format(resources.getString(R.string.loading_title));
+		LOADING_ERROR = resources.getString(R.string.loading_error);
 		CONSUMER_KEY = String.format(resources.getString(R.string.consumer_key));
 		CONSUMER_SECRET = String.format(resources.getString(R.string.consumer_secret));
 		URL_TOKEN = String.format(resources.getString(R.string.url_bearer_token));

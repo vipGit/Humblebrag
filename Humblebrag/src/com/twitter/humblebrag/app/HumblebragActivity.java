@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import com.test.humblebrag.R;
 import com.twitter.humblebrag.data.ReTweet;
+import com.twitter.humblegrag.common.ApplicationConstants;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -114,7 +115,7 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
 			}
 			
 		}else{
-    		Toast.makeText(context, "Request could not be completed due to server Error", Toast.LENGTH_LONG).show();
+    		Toast.makeText(context, ApplicationConstants.getInstance(context.getResources()).LOADING_ERROR, Toast.LENGTH_LONG).show();
 		}
 	}
 

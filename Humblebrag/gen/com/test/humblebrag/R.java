@@ -47,19 +47,20 @@ public final class R {
         public static final int app_name=0x7f040002;
         public static final int consumer_key=0x7f040000;
         public static final int consumer_secret=0x7f040001;
+        public static final int loading_error=0x7f040008;
         public static final int loading_message=0x7f040007;
         public static final int loading_title=0x7f040006;
         public static final int title_activity_base=0x7f040005;
         public static final int title_activity_humblebrag=0x7f040004;
         /**  OAuth Get Bearer Token URL 
          */
-        public static final int url_bearer_token=0x7f040008;
+        public static final int url_bearer_token=0x7f040009;
         /**  User Time Line URL: Humblebrag 
          */
-        public static final int url_humblebrag_timeline=0x7f040009;
+        public static final int url_humblebrag_timeline=0x7f04000a;
         /**  User Time Line URL: Humblebrag with maxId
          */
-        public static final int url_humblebrag_timeline_paging=0x7f04000a;
+        public static final int url_humblebrag_timeline_paging=0x7f04000b;
     }
     public static final class style {
         /** 
