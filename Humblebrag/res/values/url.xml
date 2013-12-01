@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- OAuth Get Bearer Token URL -->
+	<string name="url_bearer_token">https://api.twitter.com/oauth2/token</string>
+	<!-- User Time Line URL: Humblebrag -->
+	<string name="url_humblebrag_timeline">https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Humblebrag&amp;count=7&amp;page=%1s</string>		
+</resources>

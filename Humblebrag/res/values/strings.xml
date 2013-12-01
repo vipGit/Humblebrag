@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Humblebrag</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_humblebrag">Humblebrag Wall of Shame</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="loading_title">Please Wait..!!!</string>
+    <string name="loading_message">Getting Data.\nLoading Humblebrag Wall of Shame!!</string>
+
+</resources>
