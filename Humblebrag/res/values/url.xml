@@ -4,7 +4,7 @@
 	<!-- OAuth Get Bearer Token URL -->
 	<string name="url_bearer_token">https://api.twitter.com/oauth2/token</string>
 	<!-- User Time Line URL: Humblebrag -->
-	<string name="url_humblebrag_timeline">https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Humblebrag&amp;count=7</string>		
+	<string name="url_humblebrag_timeline">https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Humblebrag&amp;count=100</string>		
 	<!-- User Time Line URL: Humblebrag with maxId-->
 	<string name="url_humblebrag_timeline_paging">https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=Humblebrag&amp;count=100&amp;max_id=%1$s</string>		
 </resources>

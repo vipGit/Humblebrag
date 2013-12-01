@@ -86,7 +86,8 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
             return v;
 		}
 		private Bitmap getBitmap(String profileImageUrl) {
-	         try {
+	         try {	
+	        	 	 profileImageUrl.replace("normal", "bigger");
 	                 URL url = new URL(profileImageUrl);
 	                 return BitmapFactory.decodeStream(url.openConnection() .getInputStream()); 
 	         }
@@ -104,13 +105,14 @@ public class HumblebragActivity extends BaseActivity implements OnScrollListener
 		if(!isError){
 			if(adapter == null){
 				adapter = new ReTweetListAdapter(context, R.layout.list_layout, reTweets);
+				list.setAdapter(adapter);
+				list.setOnScrollListener(this);
 			}else{
 				Log.i("HB", "Count is " + adapter.getCount());
 				adapter.addAll(reTweets);
 				Log.i("HB", "Count is " + adapter.getCount());
 			}
-			list.setAdapter(adapter);
-			list.setOnScrollListener(this);
+			
 		}else{
     		Toast.makeText(context, "Request could not be completed due to server Error", Toast.LENGTH_LONG).show();
 		}
