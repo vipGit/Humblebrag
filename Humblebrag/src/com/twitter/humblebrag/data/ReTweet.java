@@ -7,7 +7,9 @@ public class ReTweet implements Serializable{
 	private static final long serialVersionUID = -1099833709381936191L;
 	private String screen_name;
 	private String tweet;
-	private String imageUrl;
+	private String imageUrlLow;
+	private String imageUrlMedium;
+	private String imageUrlHigh;
 	private String id;
 	
 	public String getTweet() {
@@ -16,11 +18,23 @@ public class ReTweet implements Serializable{
 	public void setTweet(String tweet) {
 		this.tweet = tweet;
 	}
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImageUrlLow() {
+		return imageUrlLow;
 	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImageUrlLow(String imageUrlLow) {
+		this.imageUrlLow = imageUrlLow;
+	}
+	public String getImageUrlMedium() {
+		return imageUrlMedium;
+	}
+	public void setImageUrlMedium(String imageUrlMedium) {
+		this.imageUrlMedium = imageUrlMedium;
+	}
+	public String getImageUrlHigh() {
+		return imageUrlHigh;
+	}
+	public void setImageUrlHigh(String imageUrlHigh) {
+		this.imageUrlHigh = imageUrlHigh;
 	}
 	public String getScreen_name() {
 		return screen_name;
@@ -39,7 +53,7 @@ public class ReTweet implements Serializable{
 		StringBuilder reTweet = new StringBuilder();
 		reTweet.append("Screen_name = ").append(screen_name);
 		reTweet.append(": Tweet =").append(tweet);
-		reTweet.append(": imageUrl = ").append(imageUrl);
+		reTweet.append(": imageUrlHigh = ").append(imageUrlHigh);
 		reTweet.append(": id = ").append(id);
 
 		return reTweet.toString();

@@ -21,31 +21,32 @@ import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import com.twitter.humblebrag.common.ApplicationConstants;
 import com.twitter.humblebrag.data.ReTweet;
 import com.twitter.humblebrag.data.parser.ReTweetParser;
-import com.twitter.humblegrag.common.ApplicationConstants;
 
 import android.content.Context;
 import android.util.Log;
 
 public class BaseLogic {
 	private static long max_id = 0;
-	private static boolean isFirstPage = true;
+	private static ApplicationConstants constants;
 	
-	public static ArrayList<ReTweet> getHumblebragResponse(Context context) throws ClientProtocolException, IOException{
-		String encodedKeys = encodeKeys(ApplicationConstants.getInstance(context.getResources()).CONSUMER_KEY, ApplicationConstants.getInstance(context.getResources()).CONSUMER_SECRET);
-		Log.i("HB", "encoded keys obtained " + encodedKeys);
-		String bearerToken = requestBearerToken(ApplicationConstants.getInstance(context.getResources()).URL_TOKEN, encodedKeys);
-		Log.i("HB", "Token obtained" + bearerToken);
+	public static ArrayList<ReTweet> getHumblebragResponse(Context context, boolean isStart) throws ClientProtocolException, IOException{
+		constants = ApplicationConstants.getInstance(context.getResources());
+		String encodedKeys = encodeKeys(constants.CONSUMER_KEY, constants.CONSUMER_SECRET);
+		//Log.i("HB", "encoded keys obtained " + encodedKeys);
+		String bearerToken = requestBearerToken(constants.URL_TOKEN, encodedKeys);
+		//Log.i("HB", "Token obtained" + bearerToken);
 		if(bearerToken == null) {
 			return null;
 		}
 		ArrayList<ReTweet> reTweets = null;
-		if(isFirstPage){	
-			reTweets = fetchTimelineData(ApplicationConstants.getInstance(context.getResources()).URL_HUMBLEBRAG, bearerToken);
-			isFirstPage = false;
+		if(isStart){	
+			reTweets = fetchTimelineData(constants.URL_HUMBLEBRAG, bearerToken);
 		}else{
-			reTweets = fetchTimelineData(String.format((ApplicationConstants.getInstance(context.getResources()).URL_HUMBLEBRAG_PAGING), max_id), bearerToken);
+			reTweets = fetchTimelineData(String.format((constants.URL_HUMBLEBRAG_PAGING), max_id), bearerToken);
 		}
 		return reTweets;
 	}
@@ -54,75 +55,82 @@ public class BaseLogic {
 	private static String encodeKeys(String consumerKey, String consumerSecret) {
 	
 	    try {	
-	        String encodedConsumerKey = URLEncoder.encode(consumerKey, "UTF-8");
-	        String encodedConsumerSecret = URLEncoder.encode(consumerSecret, "UTF-8");
+	        String encodedConsumerKey = URLEncoder.encode(consumerKey, constants.ENCODING);
+	        String encodedConsumerSecret = URLEncoder.encode(consumerSecret, constants.ENCODING);
 	        String fullKey = encodedConsumerKey + ":" + encodedConsumerSecret;
-	        Log.i("HB", "encode " + fullKey);
+	       // Log.i("HB", "encode " + fullKey);
 		    return new String(Base64.encodeBase64(fullKey.getBytes()));  
 	    } catch (UnsupportedEncodingException e) {
 	        return new String(e.getMessage());
 	    }
 	}
 	
-	// Constructs the request for requesting a bearer token and returns that token as a string
-	private static String requestBearerToken(String endPointUrl, String encodedKeys) throws IOException {
+	// Request for bearer token to authenticate the application
+	private static String requestBearerToken(String urlToken, String encodedKeys) throws IOException {
 		
-		HttpPost post = new HttpPost(endPointUrl);
-		post.setHeader("Authorization", "Basic " + encodedKeys);
-		post.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8"); 
+		HttpPost post = new HttpPost(urlToken);
+		post.setHeader(constants.HEADER_AUTH, constants.AUTH_TYPE_BASIC + encodedKeys);
+		post.setHeader(constants.HEADER_CONTENT, constants.CONTENT_TYPE_VALUE); 
 		List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-		params.add(new BasicNameValuePair("grant_type", "client_credentials"));
-		post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-		HttpClient hc = new DefaultHttpClient();
-		HttpResponse rp = hc.execute(post);
-		Log.i("HB", "Response "+ rp.getStatusLine().getReasonPhrase());
+		params.add(new BasicNameValuePair(constants.PARAM_GRANT, constants.GRANT_VALUE));
+		post.setEntity(new UrlEncodedFormEntity(params, constants.ENCODING));
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse response = client.execute(post);
+		//Log.i("HB", "Response "+ response.getStatusLine().getReasonPhrase());
 		//Log.i("HB", "Response "+ EntityUtils.toString(rp.getEntity()));
-		Log.i("HB", "Response "+ rp.getStatusLine().getStatusCode());
+		//Log.i("HB", "Response "+ response.getStatusLine().getStatusCode());
 		String result = null;
-		if (rp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            result = EntityUtils.toString(rp.getEntity());
-            Log.i("HB", "Result "+ result);   
-            JSONObject obj = (JSONObject)JSONValue.parse(result);
-    		Log.i("HB", obj.toString());	
-    		if (obj != null) {
-    			String tokenType;
-    			tokenType = (String)obj.get("token_type");
-				String token = (String)obj.get("access_token");
-				return ((tokenType.equals("bearer")) && (token != null)) ? token : "";            
-    		}
+		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            result = EntityUtils.toString(response.getEntity());
+            JSONObject jsonObject = (JSONObject)JSONValue.parse(result);
+            return parseTokenResponse(jsonObject);
+    		
 		}
 		return null;
 	}
 	
-	// Fetches the first tweet from a given user's timeline
-	private static ArrayList<ReTweet> fetchTimelineData(String endPointUrl, String bearerToken) throws ClientProtocolException, IOException {
-		
-			HttpGet get = new HttpGet(endPointUrl);
-			
-			get.setHeader("Authorization", "Bearer " + bearerToken);
-			HttpClient hc = new DefaultHttpClient();
-			HttpResponse rp = hc.execute(get);
-			Log.i("HB", "Request "+ endPointUrl);
-			//Log.i("HB", "Response "+ EntityUtils.toString(rp.getEntity()));
-			Log.i("HB", "Response "+ rp.getStatusLine().getStatusCode());
-			// Parse the JSON response into a JSON mapped object to fetch fields from.
-			JSONArray obj = (JSONArray)JSONValue.parse(EntityUtils.toString(rp.getEntity()));
-			//Log.i("HB", obj.toJSONString());
-			ArrayList<ReTweet> reTweets = new ArrayList<ReTweet>();
-			if (obj != null) {
-				@SuppressWarnings("unchecked")
-				Iterator<JSONObject> iterator = obj.iterator();
-				while(iterator.hasNext()){
-					ReTweet reTweet = ReTweetParser.parseResponse(iterator.next());
-					reTweets.add(reTweet);
-					Log.i("HB", reTweet.getTweet());
-					Log.i("HB", reTweet.getId());
-					max_id = Long.valueOf(reTweet.getId()) -1;
-				}
-			
-				Log.i("HB", "max_id is " + max_id);
-				return reTweets;
+	private static String parseTokenResponse(JSONObject jsonObject){
+		String token = null;
+		if (jsonObject != null) {
+			String tokenType;
+			tokenType = (String)jsonObject.get("token_type");
+			token = (String)jsonObject.get("access_token");
+			if(tokenType.equals("bearer") && (token != null)){
+				return token;
 			}
+		}
+		return token;
+	}
+	
+	// Request for  retweets from Humblebrag's timeline
+	private static ArrayList<ReTweet> fetchTimelineData(String urlTimeline, String bearerToken) throws ClientProtocolException, IOException {
+		
+			HttpGet get = new HttpGet(urlTimeline);
+			get.setHeader(constants.HEADER_AUTH, constants.AUTH_TYPE_BEARER + bearerToken);
+			HttpClient client = new DefaultHttpClient();
+			HttpResponse response = client.execute(get);
+			//Log.i("HB", "Request "+ urlTimeline);
+			//Log.i("HB", "Response "+ response.getStatusLine().getStatusCode());
+			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+				// Parse the JSON response into a JSON mapped object to fetch fields from.
+				JSONArray jsonArray = (JSONArray)JSONValue.parse(EntityUtils.toString(response.getEntity()));
+				//Log.i("HB", jsonArray.toJSONString());
+				ArrayList<ReTweet> reTweets = new ArrayList<ReTweet>();
+				if (jsonArray != null) {
+					@SuppressWarnings("unchecked")
+					Iterator<JSONObject> iterator = jsonArray.iterator();
+					while(iterator.hasNext()){
+						ReTweet reTweet = ReTweetParser.parseResponse(iterator.next());
+						reTweets.add(reTweet);
+						//Log.i("HB", reTweet.getTweet());
+						//Log.i("HB", reTweet.getId());
+						max_id = Long.valueOf(reTweet.getId()) - 1;
+					}
+					//Log.i("HB", "max_id is " + max_id);
+					return reTweets;
+				}
+			}
+			
 			return null;		
 	}
 	

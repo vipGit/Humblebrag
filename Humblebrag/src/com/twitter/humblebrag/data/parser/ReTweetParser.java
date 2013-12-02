@@ -33,7 +33,9 @@ public class ReTweetParser {
 		}
 		if(jsonObject.get(USER) != null){
 			if(((JSONObject)jsonObject.get(USER)).get(IMAGE) != null){
-				reTweet.setImageUrl(((JSONObject)jsonObject.get(USER)).get(IMAGE).toString());
+				reTweet.setImageUrlLow(((JSONObject)jsonObject.get(USER)).get(IMAGE).toString());
+				reTweet.setImageUrlMedium(reTweet.getImageUrlLow().replace("normal", "bigger"));
+				reTweet.setImageUrlHigh(reTweet.getImageUrlLow().replace("_normal", ""));
 			}
 		}
 		return reTweet;

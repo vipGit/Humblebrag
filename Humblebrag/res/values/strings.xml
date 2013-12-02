@@ -2,10 +2,12 @@
 <resources>
 
     <string name="app_name">Humblebrag</string>
-    <string name="action_settings">Settings</string>
+    <string name="image_low">Image Resolution: Low</string>
+    <string name="image_medium">Image Resolution: Medium</string>
+    <string name="image_high">Image Resolution: High</string>
     <string name="title_activity_humblebrag">Humblebrag Wall of Shame</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="loading_title">Please Wait..!!!</string>
     <string name="loading_message">Getting Data.\nLoading Humblebrag Wall of Shame!!</string>
-	<string name="loading_error">Request could not be completed due to server error.</string>
+	<string name="loading_error">Request could not be completed.</string>
 </resources>
