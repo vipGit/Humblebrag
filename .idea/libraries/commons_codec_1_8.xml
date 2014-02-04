@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Humblebrag/libs/commons-codec-1.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Humblebrag/libs/json-simple-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Humblebrag/libs/support-v4-r13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Humblebrag/libs/volley-1.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

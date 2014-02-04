@@ -3,4 +3,5 @@
 
     <string name="consumer_key">tr86UknPsbywdbsKP1XWQ</string>
     <string name="consumer_secret">gP4E7UoE4Dh402JtaRejvF3InMM70G676hMim4nTM0</string>
+    <string name="count">50</string>
 </resources>

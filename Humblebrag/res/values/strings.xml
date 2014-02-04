@@ -3,11 +3,13 @@
 
     <string name="app_name">Humblebrag</string>
     <string name="image_low">Image Resolution: Low</string>
-    <string name="image_medium">Image Resolution: Medium</string>
+    <string name="list_count">List Count</string>
     <string name="image_high">Image Resolution: High</string>
     <string name="title_activity_humblebrag">Humblebrag Wall of Shame</string>
-    <string name="title_activity_base">BaseActivity</string>
-    <string name="loading_title">Please Wait..!!!</string>
-    <string name="loading_message">Getting Data.\nLoading Humblebrag Wall of Shame!!</string>
-	<string name="loading_error">Request could not be completed.</string>
+    <string name="title_activity_base">Twitter: Humblebrag</string>
+    <string name="summary_resolution">Get High Resolution Images</string>
+    <string name="dialog_count">Enter Count</string>
+	<string name="summary_count">Number of Tweets to get in one request</string>
+    <string name="setting">Settings</string>
+    <string name="save">Save Image</string>
 </resources>

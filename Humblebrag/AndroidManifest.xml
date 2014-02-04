@@ -10,14 +10,16 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.Sherlock"
+        android:uiOptions="splitActionBarWhenNarrow">
         <activity
-            android:name="com.twitter.humblebrag.app.StartActivity"
+            android:name=".app.activity.StartActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +28,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.twitter.humblebrag.app.HumblebragActivity"
+            android:name=".app.activity.HumblebragActivity"
             android:label="@string/title_activity_humblebrag" >
         </activity>
         <activity
-            android:name="com.twitter.humblebrag.app.BaseActivity"
+            android:name=".app.activity.TweetActivity"
+            android:label="@string/title_activity_base" >
+        </activity>
+        <activity
+            android:name=".app.activity.SettingsActivity"
             android:label="@string/title_activity_base" >
         </activity>
     </application>
